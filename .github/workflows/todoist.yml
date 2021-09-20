@@ -21,15 +21,14 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Sync issues
+        if: always()
         id: sync
-        uses: cobraz/todoist-action@v1
+        uses: ./
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           todoist-token: ${{ secrets.TODOIST_TOKEN }}
-          query:
-            updated:>2020-06-01 archived:false sort:updated-desc assignee:aluBN11
-            -label:backlog
-          sync-file-name: ./sync.json
+          query: ${{ matrix.query }}
+          sync-file-name: ./${{ matrix.key }}.json
         
